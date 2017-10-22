@@ -2,7 +2,7 @@
 local sti = require "libs.sti.sti"
 local Camera = require "libs.hump.camera"
 
-player = require "player"
+require "player"
 
 game = {}
 
@@ -12,21 +12,29 @@ function game:init()
   self.scale_factor = 3
   love.physics.setMeter(16)
   map = sti("textures/tilemap.lua", { "box2d" })
-  world = love.physics.newWorld(0, 0)
-  camera = Camera(10, 5, 5)
+  world = love.physics.newWorld(1, 0)
   map:box2d_init(world)
 
 end
 
 function game:draw()
   -- love.graphics.scale(5, 5)
-  camera:draw(draw_world)
+  draw_world()
+  player:draw()
 end
 
 function game:update(dt)
+  player:update(dt)
   map:update(dt)
 end
 
 function draw_world()
   map:draw()
+end
+
+function game:enter()
+  love.window.setMode(
+    50 * 16,
+    25 * 16
+  )
 end

@@ -7,7 +7,7 @@ local state = nil
 
 function love.load()
   GameState.registerEvents()
-  GameState.switch(title)
+  GameState.switch(game)
 end
 
 -- function love.draw() GameState.draw() end
