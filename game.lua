@@ -2,11 +2,12 @@
 local sti = require "libs.sti.sti"
 local Camera = require "libs.hump.camera"
 
-require "player"
+local player = require "player"
 
 game = {}
 
 function game:init()
+  love.graphics.setDefaultFilter("nearest", "nearest")
   self.width = 400
   self.height = 300
   self.scale_factor = 3
@@ -14,13 +15,7 @@ function game:init()
   map = sti("textures/tilemap.lua", { "box2d" })
   world = love.physics.newWorld(1, 0)
   map:box2d_init(world)
-
-end
-
-function game:draw()
-  -- love.graphics.scale(5, 5)
-  draw_world()
-  player:draw()
+  player:init()
 end
 
 function game:update(dt)
@@ -28,8 +23,15 @@ function game:update(dt)
   map:update(dt)
 end
 
-function draw_world()
-  map:draw()
+function game:draw()
+  local w, h = love.graphics.getWidth(), love.graphics.getHeight()
+  local cam = player.camera
+
+  map:draw(-cam.x + w / cam.scale / 2, -cam.y + h / cam.scale / 2, cam.scale)
+
+  cam:attach()
+  player:draw()
+  cam:detach()
 end
 
 function game:enter()

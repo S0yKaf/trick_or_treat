@@ -1,20 +1,20 @@
 local Camera = require "libs.hump.camera"
 
-local camera = Camera.new()
-
-player = {}
+local player = {}
 
 function player:init()
   self.x = 100
-  self.y = 100
+  self.y = 359
   self.img = love.graphics.newImage('textures/player.png')
-  camera:zoomTo(10)
+  self.camera = Camera.new(self.x, self.y, 3)
 end
 
 function player:update(dt)
-  camera:lookAt(100, 360)
+  self.camera:lookAt(self.x, self.y)
 end
 
 function player:draw()
-  love.graphics.draw(love.graphics.newImage('textures/player.png'), 100, 360)
+  love.graphics.draw(self.img, self.x, self.y)
 end
+
+return player
